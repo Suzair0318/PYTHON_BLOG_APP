@@ -1,0 +1,68 @@
+{% extends "basic.html" %}
+
+{% block title %}BlogHome{% endblock %}
+
+{% block body %}
+<div class="container">
+
+    {% comment %} {% for blogmessage in allBlogPost  %} {% endcomment %}
+<div class="col-md-12 my-5">
+    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+      <div class="col p-4 d-flex flex-column position-static">
+        <strong class="d-inline-block mb-2 text-primary-emphasis">{{singleBlogPost.author}}</strong>
+        <h3 class="mb-0">{{singleBlogPost.title}}</h3>
+        <div class="mb-1 text-body-secondary">{{singleBlogPost.time_stamp}}</div>
+        <p class="card-text  mb-3">{{singleBlogPost.content}}</p>
+      </div>
+    </div>
+  </div>
+  {% comment %} {% endfor %} {% endcomment %}
+
+  <h1 class="my-5">Comments :</h1>
+  <form method="POST" action="/blog/BlogComment" >
+    {% csrf_token %}
+  <div class="form-floating">
+    <textarea class="form-control" name="comment" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+    <label for="floatingTextarea">Comments</label>
+    <input type="hidden" value={{singleBlogPost.sno}} name="blogpostsno" />
+  </div>
+   <button type="submit"  class="btn btn-primary my-1" >Submit</button>
+</form>
+
+{% for comments in allcomment  %}
+  <div class="row my-3">
+  <div class="col-2 bg-primary "><p class="my-2">{{comments.user}}</p></div>
+  <div class="col-10 bg-success">
+     <p class="my-2">{{comments.comment}}</p>
+    <button class="btn btn-primary mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample{{comments.sno}}" aria-expanded="false" aria-controls="collapseExample{{comments.sno}}">
+      Reply
+    </button>
+  <div class="collapse my-2" id="collapseExample{{comments.sno}}">
+    <div class="card card-body">
+      <div class="row g-3 align-items-center">
+        <form method='POST' action="/blog/BlogComment">
+          {% csrf_token %}
+        <div class="col-10">
+          <input type="text" id="inputPassword5" class="form-control" name="commentreply" aria-describedby="passwordHelpBlock">
+          <input type="hidden" name="parentsno" value={{comments.sno}} />
+          <input type="hidden" value={{singleBlogPost.sno}} name="blogpostsno" />
+        </div>
+        <div class="col-auto">
+          <span id="passwordHelpInline" class="form-text">
+            <button class="btn btn-success btn-sm">Post Reply</button>
+          </span>
+        </div>
+      </form>
+      </div>
+ 
+    </div>
+  </div>
+  </div>
+</div>
+{% endfor %}
+</div>
+  
+
+   
+
+{% endblock %}

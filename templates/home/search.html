@@ -1,0 +1,27 @@
+{% extends "basic.html" %}
+
+{% block title %}Search{% endblock %}
+
+{% block body %}
+<div class="container">
+
+    {% comment %} {% if searchresult|length > 0 %}
+     <h1 class="my-5">NO Search Found</h1>
+    {% endif %} {% endcomment %}
+   
+    {% for searchresult in SearchBlogPost  %}
+   
+<div class="col-md-12 my-5">
+    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+      <div class="col p-4 d-flex flex-column position-static">
+        <strong class="d-inline-block mb-2 text-primary-emphasis">{{searchresult.author}}</strong>
+        <h3 class="mb-0">{{searchresult.title}}</h3>
+        <div class="mb-1 text-body-secondary">{{searchresult.time_stamp}}</div>
+        <p class="card-text  mb-3">{{searchresult.content}}</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endfor %}
+{% endblock %}
